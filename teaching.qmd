@@ -1,0 +1,46 @@
+---
+title: "Teaching"
+toc: true
+toc-location: right
+---
+
+I have taught introductory economics at both the university and secondary level, in the United
+States and in Bangladesh.
+
+---
+
+## University of North Texas
+
+**Teaching Assistant** · August 2023 – Present
+
+- Principles of Microeconomics — Fall 2023, Spring 2024, Fall 2024
+- Principles of Macroeconomics — Fall 2023, Spring 2024, Fall 2024
+
+Led discussion sections, held office hours, and developed problem sets and review materials.
+
+---
+
+## National Model College, Bangladesh
+
+**Lecturer, Department of Economics** · February 2019 – November 2020
+
+Taught the full introductory economics sequence.
+
+---
+
+## Noakhali Science & Technology University
+
+**Research Assistant** · March 2018 – September 2019  
+Supported the research of Binata Rani Sen, Assistant Professor.
+
+---
+
+## Teaching Materials
+
+<!-- Add slides, problem sets, or R tutorials here as you build them.
+     Example:
+     - [Introduction to Regression in R](notes/regression_intro.html)
+     - [Problem Set 1 solutions](files/ps1_solutions.pdf)
+-->
+
+Materials will be posted here as courses come online.

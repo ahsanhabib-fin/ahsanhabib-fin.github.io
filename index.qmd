@@ -1,0 +1,51 @@
+---
+title: "Ahsan Habib"
+subtitle: "Doctoral Student in Finance | Old Dominion University"
+image: images/headshot.jpg
+about:
+  template: trestles
+  image-shape: rounded
+  image-width: 16em
+  links:
+    - icon: geo-alt-fill
+      text: Norfolk, VA
+      href: https://www.odu.edu/finance-department/directory
+    - icon: envelope
+      text: Email
+      href: mailto:ahsanhabib4143@gmail.com
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/ahsan-habib-007/
+    - icon: mortarboard-fill
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=9FGBge8AAAAJ&hl=en
+    - icon: file-earmark-text
+      text: CV
+      href: ahsan_habib_cv.pdf
+---
+
+## Welcome
+
+I am a doctoral student in Business Administration with a concentration in Finance at the
+[Strome College of Business](https://www.odu.edu/strome), Old Dominion University.
+
+My research sits at the intersection of **asset pricing and geopolitical risk**. I am currently
+working on how the defense sector prices different components of geopolitical risk, and on the
+economic consequences of climate change for the Chesapeake Bay fishery.
+
+Before starting the PhD I completed an M.S. in Economics (Econometrics and Quantitative Economics)
+at the University of North Texas, and worked in corporate affairs at Bangladesh Honda Private Limited.
+
+**Research interests**
+
+- Asset pricing and the cross-section of returns
+- Geopolitical and climate risk in financial markets
+- corporate finance
+- International finance
+
+**Education**
+
+- Ph.D. Business Administration, Finance — Old Dominion University, 2025–present
+- M.S. Economics (Econometrics and Quantitative Economics) — University of North Texas, 2025
+- M.S.S. Economics — Noakhali Science & Technology University, 2019
+- B.S.S. Economics — Noakhali Science & Technology University, 2018

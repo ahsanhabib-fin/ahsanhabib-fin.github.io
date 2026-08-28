@@ -1,0 +1,15 @@
+/* ---- Dark mode overrides ---- */
+
+:root {
+  --accent: #7fb3e0;
+  --accent-soft: #23272b;
+  --rule: #3a3f44;
+}
+
+blockquote {
+  color: #ccc;
+}
+
+.quarto-title-block .subtitle {
+  color: #adb5bd;
+}

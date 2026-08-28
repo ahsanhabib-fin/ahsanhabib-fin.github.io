@@ -1,0 +1,77 @@
+---
+title: "Research"
+toc: true
+toc-location: right
+---
+
+My work asks how investors price risks that sit outside the standard factor models —
+geopolitical conflict, climate exposure, and structural shifts in resource economies.
+
+---
+
+## Working Papers
+
+**What type of geopolitical risk do defense stocks hedge? A sub-index decomposition of the defense premium**  
+*Ahsan Habib*  
+Prepared for the CRT Young Researcher Hunt 2026.
+
+> Defense equities are widely treated as a single hedge against "geopolitical risk," but the
+> risk index itself is a composite. This paper decomposes the index into its sub-components
+> to ask which specific categories of risk the defense premium actually compensates for.
+
+<!-- [Draft](files/defense_premium.pdf) · [Slides](files/defense_slides.pdf) -->
+
+**Climate change and the Chesapeake Bay fishery industry: An integrated ecological and economic impact assessment**  
+*Ahsan Habib and Wai Yan Siu*  
+Manuscript in preparation. Funded by the ODU Graduate Summer Award Program (GSAP) 2026.
+
+> An integrated assessment linking ecological projections for the Chesapeake Bay to the
+> economic outcomes of the commercial fishery that depends on it.
+
+---
+
+## Peer-Reviewed Publications
+
+### Published
+
+**The CAMELS Model Applications in Selected Third and Fourth Generation Banks in Bangladesh**  
+Zeya, F., Salimullah, A. H. M., Sultana, N., **Habib, A.**, Rahman, M. H., & Siam, M. E. (2026).  
+*SN Business & Economics*, 6, 149.  
+[DOI: 10.1007/s43546-026-01171-z](https://doi.org/10.1007/s43546-026-01171-z)
+
+**Investigating the impact of blue economy factors such as tourism, fishing and renewable energy on economic growth: fresh panel evidence from Bangladesh, Myanmar and India**  
+Mawa, J., **Habib, A.**, Miah, N., Uddin, I., & Rahman, M. H. (2026).  
+*International Journal of Green Economics*, 20(2), 89–107.  
+[DOI: 10.1504/IJGE.2026.10075830](https://doi.org/10.1504/IJGE.2026.10075830)
+
+**Impact of Economic and Non-Economic Factors on Inflow of Remittances into Bangladesh: Application of Robust Least Squares Method**  
+Rahman, M. H., & **Habib, A.** (2021).  
+*Finance & Economics Review*, 3(1), 51–62.  
+[DOI: 10.38157/finance-economics-review.v3i1.289](https://doi.org/10.38157/finance-economics-review.v3i1.289)
+
+### Accepted / In Press
+
+**Natural resource rents and energy poverty nexus in next eleven economies**  
+Uddin, M. S., Ali, A., Ahmed, Z., Sikdar, M. N. U., **Habib, A.**, & Al-Mahde, A. E. (2026).  
+*Discover Sustainability*. Accepted.
+
+**Effect of Population Density and Per Capita Income on Environmental Degradation: Population-Based EKC in SAARC Countries**  
+Rahman, M. M. H., **Habib, A.**, Afroz, S., & Salimullah, A. H. M. (2025).  
+*International Journal of Indian Culture and Business Management*. In press.  
+[DOI: 10.1504/IJICBM.2025.10075816](https://doi.org/10.1504/IJICBM.2025.10075816)
+
+---
+
+## Grants and Awards
+
+**Graduate Summer Award Program (GSAP)** — Old Dominion University Graduate School, 2026 · $4,000  
+For *Climate Change and the Chesapeake Bay Fishery Industry*, supervised by Dr. W. Y. Siu,
+ODU Institute for Coastal Adaptation and Resilience.
+
+**Graduate Academic Excellence Award** — University of North Texas, April 2024 · $800
+
+---
+
+## Conference Presentations
+
+North Texas Economics Conference (NTxEC), Denton, Texas, 2024.

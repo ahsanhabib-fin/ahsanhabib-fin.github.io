@@ -1,0 +1,71 @@
+/* ---- Ahsan Habib — site styles ---- */
+
+:root {
+  --accent: #1f4e79;        /* deep navy — change this one line to restyle the site */
+  --accent-soft: #eaf0f6;
+  --rule: #e2e2e2;
+}
+
+body {
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  margin-top: 2.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+h3 {
+  margin-top: 1.6rem;
+  font-size: 1.15rem;
+  color: var(--accent);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Paper abstracts set as blockquotes */
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 0.7rem 1rem;
+  margin: 0.8rem 0 1.2rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Tighten the navbar */
+.navbar {
+  border-bottom: 1px solid var(--rule);
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+/* Homepage headshot */
+.about-image img {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+hr {
+  border-top: 1px solid var(--rule);
+  opacity: 1;
+}
+
+.quarto-title-block .subtitle {
+  font-weight: 400;
+  color: #555;
+}

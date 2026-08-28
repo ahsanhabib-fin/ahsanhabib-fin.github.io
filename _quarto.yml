@@ -1,0 +1,38 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Ahsan Habib"
+  site-url: "https://ahsanhabib-fin.github.io"
+  description: "Doctoral student in Finance at Old Dominion University."
+  favicon: images/favicon.png
+
+  navbar:
+    right:
+      - text: "Home"
+        href: index.qmd
+      - text: "CV"
+        href: ahsan_habib_cv.pdf
+      - text: "Research"
+        href: research.qmd
+      - text: "Teaching"
+        href: teaching.qmd
+      - text: "Projects"
+        href: projects.qmd
+      - text: "About"
+        href: about.qmd
+
+  page-footer:
+    center: "© 2026 Ahsan Habib · Built with [Quarto](https://quarto.org)"
+
+format:
+  html:
+    theme:
+      light: [litera, styles.css]
+      dark: [darkly, styles-dark.css]
+    toc: false
+    css: styles.css
+    link-external-newwindow: true
+
+editor: source

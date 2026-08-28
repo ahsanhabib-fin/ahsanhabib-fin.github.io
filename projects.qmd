@@ -1,0 +1,47 @@
+---
+title: "Projects"
+toc: true
+toc-location: right
+---
+
+Applied and coursework projects, mostly in R and Python.
+
+---
+
+## Predictive Analytics: Sales Projection for Aspen Row
+
+With Istiaq Miraj · Supervised by Dr. Margie Tieslau, University of North Texas  
+*Empirical Linear Modelling*
+
+Built and validated a sales forecasting model for a regional retail property.
+
+---
+
+## Impact of Public Health Expenditure on Life Expectancy in South Asian Countries
+
+Supervised by Dr. Margie Tieslau, University of North Texas  
+*Applied Econometrics*
+
+Panel estimation of the returns to public health spending across South Asia.
+
+---
+
+## The Impact of Foreign Direct Investment on Unemployment in South Asian Countries
+
+Supervised by Dr. Myungsup Kim, University of North Texas  
+*Econometric Analysis of Panel Data*
+
+Dynamic panel analysis of FDI inflows and labor market outcomes.
+
+---
+
+## Research Assistantship
+
+**University of North Texas** · June 2024 – August 2024  
+Research Assistant to Dr. Michael Nieswiadomy, Professor of Economics.
+
+---
+
+<!-- As you write code you're willing to share, add repository links here:
+     [GitHub repository](https://github.com/YOURUSERNAME/project-name)
+-->
