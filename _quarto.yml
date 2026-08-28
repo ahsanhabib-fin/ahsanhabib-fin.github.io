@@ -29,8 +29,8 @@ website:
 format:
   html:
     theme:
-      light: [litera, styles.css]
-      dark: [darkly, styles-dark.css]
+      light: litera
+      dark: darkly
     toc: false
     css: styles.css
     link-external-newwindow: true

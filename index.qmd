@@ -9,7 +9,7 @@ about:
   links:
     - icon: geo-alt-fill
       text: Norfolk, VA
-      href: https://www.odu.edu/finance-department/directory
+      href: https://www.google.com/maps/place/Constant+Hall/@36.8875245,-76.3078365,17z/data=!3m1!4b1!4m6!3m5!1s0x89ba99ad50b1e0df:0x51c27a65cc852fa4!8m2!3d36.8875202!4d-76.3052616!16s%2Fg%2F12mjc9rc_?entry=ttu&g_ep=EgoyMDI2MDgyNS4wIKXMDSoASAFQAw%3D%3D
     - icon: envelope
       text: Email
       href: mailto:ahsanhabib4143@gmail.com
