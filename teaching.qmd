@@ -9,9 +9,19 @@ States and in Bangladesh.
 
 ---
 
+## Old Dominion University
+
+**Teaching Assistant** · August 2026 – Present
+
+- Introductory Financial Management — Fall 2026
+
+
+Assist professor according her need, Proctoring.
+
+
 ## University of North Texas
 
-**Teaching Assistant** · August 2023 – Present
+**Teaching Assistant** · August 2023 – May 2025
 
 - Principles of Microeconomics — Fall 2023, Spring 2024, Fall 2024
 - Principles of Macroeconomics — Fall 2023, Spring 2024, Fall 2024
@@ -35,12 +45,3 @@ Supported the research of Binata Rani Sen, Assistant Professor.
 
 ---
 
-## Teaching Materials
-
-<!-- Add slides, problem sets, or R tutorials here as you build them.
-     Example:
-     - [Introduction to Regression in R](notes/regression_intro.html)
-     - [Problem Set 1 solutions](files/ps1_solutions.pdf)
--->
-
-Materials will be posted here as courses come online.
