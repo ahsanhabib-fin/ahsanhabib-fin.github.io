@@ -10,7 +10,7 @@ Applied and coursework projects, mostly in R and Python.
 ## Econometrics Coursework
 
 Homework and project from Econometrics III, taught by Dr. Alex Cardazzi at
-Old Dominion University.
+Old Dominion University on Fall 2026.
 
 | Assignment | Topic | File |
 |---|---|---|
