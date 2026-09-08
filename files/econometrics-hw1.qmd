@@ -1,0 +1,401 @@
+---
+title: "Homework 1"
+author: "Ahsan"
+institute: "Old Dominion University"
+format: 
+  html:
+    theme: Superhero
+    code-tools: true
+    code-fold: true
+    code-summary: "Code"
+    code-copy: hover
+    link-external-newwindow: true
+    tbl-cap-location: top
+    fig-cap-location: bottom
+
+self-contained: true
+editor: source
+---
+
+```{r setup, include=FALSE}
+# DO NOT EDIT THIS
+
+knitr::opts_chunk$set(fig.align = 'center')
+knitr::opts_chunk$set(out.width = '90%')
+knitr::opts_chunk$set(results = 'hold')
+knitr::opts_chunk$set(fig.show = 'hold')
+knitr::opts_chunk$set(error = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+par(mar = c(4.1, 4.1, 1.1, 4.1))
+
+Q <- 0
+
+```
+
+
+
+Understanding labor market outcomes is crucial for gaining insights into economic dynamics and societal structures. The 1976 Panel Study of Income Dynamics (PSID) serves as a valuable dataset for such an analysis, capturing a comprehensive snapshot of American households at a particular time. These data document labor market outcomes for women with additional information about their partners' labor market outcomes. Investigating the factors influencing female wages provides a nuanced perspective on gender dynamics, labor market trends, and the distribution of economic opportunities within households.
+
+Analyzing wages between spouses allows us to explore questions related to gender equity, workforce participation, and the impact of educational attainment. Educational levels, for instance, may influence both the individual's and the spouse's earning potential, shedding light on the interplay between education and labor market outcomes within a family unit. Additionally, considering the presence of children in the household introduces a complex dynamic, as it may affect labor force participation, career choices, and subsequently, wages.
+
+Regression analysis emerges as a powerful tool for examining these relationships, enabling the quantification of the impact of various factors on wages. By controlling for relevant characteristics, such as education and the labor market status of partners, regression models can provide a clearer understanding of the specific influences shaping labor market outcomes for women. This exploration not only contributes to our comprehension of societal structures but also provides empirical insights essential for crafting informed policies aimed at fostering equality and economic well-being.
+
+In this homework, you will explore [PSID data](https://vincentarelbundock.github.io/Rdatasets/csv/AER/PSID1976.csv) ([documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/PSID1976.html)) and generate empirical insights about the labor market for women in 1976.
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Use the data linked above to answer the following.
+
+`r q <- q+1; letters[q]`. Read the data into an object called `psid`. (**0 Points**)
+
+```{r}
+psid <- read.csv("PSID1976.csv")
+dim(psid)
+head(psid)
+```
+
+`r q <- q+1; letters[q]`. Subset the `data.frame` to include only the following columns: (**0 Points**)
+
+:::: {.columns}
+
+::: {.column width="49%"}
+- `wage`: wife's hourly wage in 1975 dollars.
+- `hours`: wife's hours worked in 1975.
+- `education`: wife's education measured in number of years.
+- `age`: wife's age.
+- `youngkids`: number of children under six years old.
+- `oldkids`: number of children between six and eighteen.
+:::
+
+::: {.column width="2%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="49%"}
+- `hwage`: husband's hourly wage in 1975 dollars.
+- `hhours`: husband's hours worked in 1975.
+- `heducation`: husband's education measured in number of years.
+- `hage`: husband's age.
+- `unemp`: unemployment rate in county of residence, in percentage points.
+- `city`: whether the couple lives in a large city.
+:::
+
+::::
+
+```{r}
+
+psid_subset <- c("wage", "hours", "education", "age", "youngkids", "oldkids",
+          "hwage", "hhours", "heducation", "hage", "unemp", "city")
+
+psid <- psid[, psid_subset]
+
+psid$wage[is.na(psid$wage)] <- 0
+
+str(psid)
+```
+
+`r q <- q+1; letters[q]`. Convert `city` into a binary variable equal to one if the couple lived in a large city and zero otherwise. (**0 Points**)
+
+```{r}
+psid$city <- as.integer(tolower(as.character(psid$city)) %in% c("yes", "1", "true"))
+
+table(psid$city)
+```
+
+`r q <- q+1; letters[q]`. Create an `employed` variable equal to 1 if the woman worked in 1975. (**0 Points**)
+
+```{r}
+psid$employed <- as.integer(psid$hours > 0)
+
+summary(psid$employed)
+```
+
+`r q <- q+1; letters[q]`. Using functions from the `modelsummary` package, create a summary statistics table.  Then, using this table, discuss some empirical facts.^[For example, what is the average age gap within couples? What is the average wage gap? What percent of sampled females were employed in 1975? What is the average number of children of the women sampled?] (**2 Points**)
+
+```{r}
+library(modelsummary)
+datasummary(
+  All(psid) ~ Mean + SD + Min + Median + Max + N,
+  data = psid,
+  fmt = 2,
+  title = "Table 1: Summary statistics, PSID 1976"
+)
+```
+
+### Discussion
+
+*** The average wage is 2.37, but the standard error is 3.24, and the minimum is zero. This means the distribution is highly skewed toward zero. It also suggests that the maximum women's wage is zero or close to zero.
+
+*** The average women's education is more than 12 years. In this dataset, they collected data on women aged 30 to 60, and the average age of those women is 42.54. They have more older kids than younger kids.
+
+*** According to the dataset, husbands work around 3 times more than wives, and their wages are also about 3 times higher than women's wages on average. Husbands' and wives' education levels are almost the same, and their average age gap is not big; it is around 3 years.
+
+*** Most women live in urban areas, and only 57% of women are employed.
+
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+In this question, you will explore some of the variables in the data.
+
+`r q <- q+1; letters[q]`. Use the `density()` function to plot the wage distribution for husbands of employed and unemployed women in 1975. What do you learn from this figure? (**2 Points**)
+
+```{r}
+d0 <- density(psid$hwage[psid$employed == 0])
+d1 <- density(psid$hwage[psid$employed == 1])
+
+plot(d0,
+     main = "Husband's hourly wage, by wife's employment status",
+     xlab = "Husband's hourly wage (1975 $)",
+     ylab = "Density",
+     lwd  = 2,
+     col  = "tomato",
+     xlim = range(c(d0$x, d1$x)),
+     ylim = c(0, max(c(d0$y, d1$y)) * 1.05))
+lines(d1, lwd = 2, col = "steelblue")
+legend("topright",
+       legend = c("Wife not employed", "Wife employed"),
+       col    = c("tomato", "steelblue"),
+       lwd    = 2, bty = "n")
+
+```
+### Discussion
+
+*** Both graphs are skewed to the right, and the graph for employed wives is more skewed than the graph for non-employed wives. However, the non-employed group's density is shifted to the right and has a visibly fatter upper tail than the employed group.
+
+`r q <- q+1; letters[q]`. Tabulate the *total* number of children for the women sampled. What do you learn from this figure? (**1 Point**)
+
+
+```{r}
+psid$totkids <- psid$youngkids + psid$oldkids
+kids_tab <- table(psid$totkids)
+barplot(kids_tab,
+        main = "Distribution of total children under 18",
+        xlab = "Number of children",
+        ylab = "Number of women",
+        col  = "grey70",
+        border = "white")
+
+```
+### Discussion
+
+*** Most women do not have any children, and the maximum number of children a woman has is 8. This graph is right-skewed.
+
+`r q <- q+1; letters[q]`. Calculate the average number of young and old children (separately) by age.  Plot the relationship between children and age. What do you learn from this figure? (**2 Points**)
+
+```{r}
+kids_by_age <- aggregate(cbind(youngkids, oldkids) ~ age, data = psid, FUN = mean)
+head(kids_by_age, 10)
+
+plot(kids_by_age$age, kids_by_age$oldkids,
+     type = "b", pch = 16, lwd = 2, col = "steelblue",
+     main = "Average number of children by wife's age",
+     xlab = "Wife's age",
+     ylab = "Average number of children",
+     ylim = c(0, max(kids_by_age$oldkids) * 1.1))
+lines(kids_by_age$age, kids_by_age$youngkids,
+      type = "b", pch = 17, lwd = 2, col = "tomato")
+legend("topright",
+       legend = c("Children aged 6-18", "Children under 6"),
+       col    = c("steelblue", "tomato"),
+       pch    = c(16, 17), lwd = 2, bty = "n")
+```
+
+###Discussion
+*** Young children fall steadily with age (around 0.65 on average at 30–34, near zero past 49), while children aged 6–18 hump-shape — rising to about 2.3 around ages 35–39, then declining to near zero by 60.
+
+
+`r q <- q+1; letters[q]`. Generate a scatterplot between a woman's wages and her husband's wages. Be sure to include axis labels, etc. Add a diagonal line that denotes y = x. What are some things you can learn from this plot? (**1 Point**)
+
+```{r}
+plot(psid$hwage, psid$wage,
+     pch  = 19,
+     cex  = 0.6,
+     col  = ifelse(psid$employed == 1,
+                   rgb(0.27, 0.51, 0.71, 0.6),
+                   rgb(0.70, 0.13, 0.13, 0.4)),
+     main = "Wife's wage vs. husband's wage, 1975",
+     xlab = "Husband's hourly wage (1975 $)",
+     ylab = "Wife's hourly wage (1975 $)",
+     xlim = c(0, 45),
+     ylim = c(0, 45))
+abline(a = 0, b = 1, lty = 2, lwd = 2)
+legend("topright",
+       legend = c("Wife employed", "Wife not employed", "45-degree line (y = x)"),
+       col    = c("steelblue", "firebrick", "black"),
+       pch    = c(19, 19, NA),
+       lty    = c(NA, NA, 2),
+       bty    = "n")
+
+```
+
+
+
+*** Most husbands have an hourly wage of less than $10, regardless of their wives' employment status.
+
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+For this question, you will estimate two regressions.  First, you will estimate a model to explain a woman's wages using characteristics pertaining to her and/or her husband.  Second, estimate the same model using only the subset of women with non-zero wages. At the end, use functions from the `modelsummary` package to present the results.
+
+`r q <- q+1; letters[q]`. Estimate a model where a woman's wages is a function of factors pertaining to her and/or her husband. You may use any variable, or combination of variables, except for the variable that indicates whether a woman is employed. Include *every* variable you believe belongs in the model.  For each variable you choose to include, provide (i) the sign you expect its coefficient to have, and (ii) a one-sentence story for *why* the variable affects wages. (**2 Points**)
+
+```{r}
+f_wage <- wage ~ education + age + youngkids + oldkids +
+                 heducation + hwage + hhours + unemp + city
+
+m_all <- lm(f_wage, data = psid)
+summary(m_all)
+```
+
+### Discussion
+
+*** Education – Positive. Education has a positive and significant impact on wages. This is generally true.
+
+*** Age – Ambiguous. We can explain it in two ways. If someone works in a blue-collar job, age might have a negative impact on wages. But if someone works in a white-collar job, age might have a positive impact because experience can increase salary.
+
+*** Young kids – Negative. Mothers need to give more attention to young kids, which might have a negative impact on their jobs and wages.
+
+*** Old kids – Positive or slightly negative. Mothers still need to give attention to their kids, but the negative impact might be very small because older kids usually need less attention.
+
+*** Husband's education (heducation) – Positive. An educated husband may positively encourage and support his wife's career.
+
+*** Husband's wage (hwage) – Positive. A higher husband's wage might create more competition between the husband and wife. :-P
+
+*** Unemployment (unemp) – Negative. Usually, high unemployment is associated with lower wages.
+
+*** City – Positive. Cities create more jobs and provide more employment opportunities.
+
+
+
+`r q <- q+1; letters[q]`. Re-estimate the model using only the subset of employed women. (**1 Point**)
+
+```{r}
+m_emp <- lm(f_wage, data = subset(psid, wage > 0))
+summary(m_emp)
+```
+
+`r q <- q+1; letters[q]`. Display the coefficients from both estimations in a single table. (**1 Point**)
+
+```{r}
+modelsummary(
+  list("(1) All women" = m_all, "(2) Employed only" = m_emp),
+  stars     = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+  fmt       = 4,
+  gof_map   = c("nobs", "r.squared", "adj.r.squared"),
+  title     = "Table 3: OLS estimates of the wife's hourly wage (1975 $)",
+  notes     = "Column (1) treats non-participants as earning $0. Column (2) drops them."
+)
+
+```
+
+`r q <- q+1; letters[q]`. Interpret the coefficients in the regressions. (**2 Points**)
+ *** education- For all women; One more year of the wife's schooling is associated
+  with a $0.56 higher hourly wage and on the other hand for employed women salary increase rate is $0.52
+
+*** age - Each additional year of age is reduce $0.04 per hour wage. Its opposite of our expectation. For employed women this result is not significant.
+
+*** youngkids` - Each additional child under six is associated with $1.19 less per hour, for employed women its insignificant.
+
+*** heducation` = A year more of the husband's schooling is associated with $0.09 less for the wife for all women but for employed women its insignificant. 
+
+
+`r q <- q+1; letters[q]`. Do any of the coefficients change between regressions? Why or why not? Which regression do you prefer, and why? (**1 Point**)
+
+*** yea, 3 varibales coefficient have changed. Those are age,youngkids,hwage.
+These varibales have direct impact for women those employed. I prefer employed only regression. Its give precise and actual information.
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+The exercise in this question will be very similar to the last one, except the dependent variable will be binary.
+
+`r q <- q+1; letters[q]`. Estimate a model that explains female employment status. Again, you may choose which variables you would like to use in the model, but you may not use the woman's wages as an explanatory variable.  For each variable you choose to include, provide (i) the sign you expect its coefficient to have, and (ii) a one-sentence story for *why* the variable affects employment. (**1 Point**)
+
+| Variable | Expected sign | Why it belongs |
+|---|---|---|
+| `education` | **+** | A better-educated woman commands a higher market wage, which is more likely to clear her reservation wage. |
+| `age` | **−** | Older women in this cohort face weaker attachment, more health limitations, and approaching retirement. |
+| `youngkids` | **−** | A preschooler requires care that was expensive or unavailable in 1975, so it raises the reservation wage sharply. |
+| `oldkids` | **−** (small) | School-age children still need supervision, but school hours absorb most of the constraint. |
+| `heducation` | **−** | Husband's schooling proxies for permanent household income, and a richer household buys more leisure. |
+| `hwage` | **−** | A pure income effect: higher household income raises the wife's reservation wage. |
+| `hhours` | **−** | A husband already supplying long hours signals a household specialized in his market work and her home production. |
+| `unemp` | **−** | Fewer job openings mean fewer offers and more discouraged workers. |
+| `city` | **+** | Thicker urban labor markets offer more part-time and clerical jobs suited to a second earner. |
+
+```{r}
+f_emp <- employed ~ education + age + youngkids + oldkids +
+                    heducation + hwage + hhours + unemp + city
+
+m_lpm   <- lm(f_emp, data = psid)
+m_logit <- glm(f_emp, data = psid, family = binomial(link = "logit"))
+
+summary(m_lpm)
+```
+
+
+
+`r q <- q+1; letters[q]`. Display the coefficients in a table. (**1 Point**)
+
+```{r}
+modelsummary(
+  list("(1) LPM" = m_lpm, "(2) Logit" = m_logit),
+  stars   = c("*" = 0.1, "**" = 0.05, "***" = 0.01),
+  fmt     = 4,
+  gof_map = c("nobs", "r.squared", "adj.r.squared", "aic"),
+  title   = "Table 4: Models of the wife's 1975 employment status",
+  notes   = "Column (2) reports raw logit coefficients, not marginal effects."
+)
+```
+
+
+
+
+`r q <- q+1; letters[q]`. Interpret each coefficient in the regression. (**2 Points**)
+
+*** education — Each additional year of the wife's schooling raises her probability of working by 5.9 percentage points, so a four-year college degree over high school implies roughly 24 points.
+
+*** age — Each additional year of age lowers the probability of working by 1.3 points, reflecting weaker labor force attachment among older women in this cohort.
+
+*** youngkids — Each child under six lowers the probability of employment by 30 percentage points, cutting the 56.8% base participation rate roughly in half.
+
+*** oldkids — Each school-age child lowers the probability by only 1.2 points and is statistically indistinguishable from zero, so it is the age of the child rather than the number that constrains labor supply.
+
+*** heducation — insignificant
+
+*** hwage — Each additional dollar per hour the husband earns lowers the wife's probability of working by 1.7 points, a clear income effect on her reservation wage.
+
+*** hhours — One hundred additional husband hours per year lower her probability of working by 1.1 points, consistent with household specialization.
+
+
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Discuss yours findings from the regressions above.  What does this tell you about women from the mid 1970s?  Did anything surprise you?  How do you think these regressions would differ if the sample contained data collected from women of today? (**1 Point**)
+
+*** The regressions point to one conclusion: for married women in the mid-1970s, the binding constraint was participation, not pay. Young children, husband's earnings, and age all move whether a woman worked — a preschooler alone cuts the participation probability by 30 points — yet none of them explains what she earned once employed. Education is the only variable that behaves like a genuine price of labor, worth a stable $0.52–0.56 per hour per year of schooling across every specification. With data on women today I would expect participation to be far higher and the child penalty to have migrated from the employment margin into wages, reversing the pattern found here.

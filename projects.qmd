@@ -7,6 +7,7 @@ toc-location: right
 Applied and coursework projects, mostly in R and Python.
 
 ---
+
 ## Econometrics Coursework
 
 Homework and project from Econometrics III, taught by Dr. Alex Cardazzi at
@@ -14,13 +15,16 @@ Old Dominion University on Fall 2026.
 
 | Assignment | Topic | File |
 |---|---|---|
-| Homework 1 | [Topic] | [PDF](files/econometrics-hw1.pdf) |
-| Homework 2 | [Topic] | [PDF](files/econometrics-hw2.pdf) |
-| Homework 3 | [Topic] | [PDF](files/econometrics-hw3.pdf) |
-| Homework 4 | [Topic] | [PDF](files/econometrics-hw4.pdf) |
-| Homework 5 | [Topic] | [PDF](files/econometrics-hw5.pdf) |
-| Homework 6 | [Topic] | [PDF](files/econometrics-hw6.pdf) |
-| Final Project | [Topic] | [PDF](files/econometrics-project.pdf) |
+| Homework 1 | [Topic] | [HTML](files/econometrics-hw1.html) |
+
+<!-- Add each row back once the assignment is rendered into files/
+| Homework 2 | [Topic] | [HTML](files/econometrics-hw2.html) |
+| Homework 3 | [Topic] | [HTML](files/econometrics-hw3.html) |
+| Homework 4 | [Topic] | [HTML](files/econometrics-hw4.html) |
+| Homework 5 | [Topic] | [HTML](files/econometrics-hw5.html) |
+| Homework 6 | [Topic] | [HTML](files/econometrics-hw6.html) |
+| Final Project | [Topic] | [HTML](files/econometrics-project.html) |
+-->
 
 
 ## Predictive Analytics: Sales Projection for Aspen Row
@@ -30,7 +34,7 @@ With Istiaq Miraj · Supervised by Dr. Margie Tieslau, University of North Texas
 
 Built and validated a sales forecasting model for a regional retail property.
 
-[[Report](files/aspen-row-report.pdf)] · [[Slides](files/aspen-row-slides.pdf)]
+<!-- Link back once the PDF is in files/: [[Report](files/aspen-row-report.pdf)] · [[Slides](files/aspen-row-slides.pdf)] -->
 
 ---
 
@@ -41,7 +45,7 @@ Supervised by Dr. Margie Tieslau, University of North Texas
 
 Panel estimation of the returns to public health spending across South Asia.
 
-[[Report](files/health-expenditure-life-expectancy.pdf)]
+<!-- Link back once the PDF is in files/: [[Report](files/health-expenditure-life-expectancy.pdf)] -->
 
 ---
 
@@ -52,7 +56,7 @@ Supervised by Dr. Myungsup Kim, University of North Texas
 
 Dynamic panel analysis of FDI inflows and labor market outcomes.
 
-[[Report](files/fdi-unemployment.pdf)]
+<!-- Link back once the PDF is in files/: [[Report](files/fdi-unemployment.pdf)] -->
 
 ---
 
@@ -63,6 +67,8 @@ Research Assistant to Dr. Michael Nieswiadomy, Professor of Economics.
 
 ---
 
+<!-- Coursework section — uncomment and fill in real course names once these PDFs exist
+
 ## Coursework
 
 Selected assignments from PhD coursework at Old Dominion University.
@@ -72,6 +78,8 @@ Selected assignments from PhD coursework at Old Dominion University.
 | FIN 8XX — [Course Name] | Homework 1 | [PDF](files/fin8xx-hw1.pdf) |
 | FIN 8XX — [Course Name] | Homework 2 | [PDF](files/fin8xx-hw2.pdf) |
 | ECON 8XX — [Course Name] | Problem Set 1 | [PDF](files/econ8xx-ps1.pdf) |
+
+-->
 
 ---
 
