@@ -16,9 +16,9 @@ Old Dominion University on Fall 2026.
 | Assignment | Topic | File |
 |---|---|---|
 | Homework 1 | [Topic] | [HTML](files/econometrics-hw1.html) |
+| Homework 2 | [Topic] | [HTML](files/econometrics-hw2.html) |
 
 <!-- Add each row back once the assignment is rendered into files/
-| Homework 2 | [Topic] | [HTML](files/econometrics-hw2.html) |
 | Homework 3 | [Topic] | [HTML](files/econometrics-hw3.html) |
 | Homework 4 | [Topic] | [HTML](files/econometrics-hw4.html) |
 | Homework 5 | [Topic] | [HTML](files/econometrics-hw5.html) |
