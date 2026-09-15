@@ -1,0 +1,298 @@
+---
+title: "Homework 2"
+author: "Ahsan"
+institute: "Old Dominion University"
+format: 
+  html:
+    theme: lux # Check here for more themes: https://quarto.org/docs/output-formats/html-themes.html
+    code-tools: true
+    code-fold: true
+    code-summary: "Code"
+    code-copy: hover
+    link-external-newwindow: true
+    tbl-cap-location: top
+    fig-cap-location: bottom
+
+self-contained: true
+editor: source
+---
+
+```{r setup, include=FALSE}
+# DO NOT EDIT THIS
+
+knitr::opts_chunk$set(fig.align = 'center')
+knitr::opts_chunk$set(out.width = '90%')
+knitr::opts_chunk$set(results = 'hold')
+knitr::opts_chunk$set(fig.show = 'hold')
+knitr::opts_chunk$set(error = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+par(mar = c(4.1, 4.1, 1.1, 4.1))
+
+Q <- 0
+```
+
+In 1975, Sam Peltzman published a famous study of automobile safety regulation.  His argument, now known as the **Peltzman effect** or **risk compensation**, was that safety mandates can partially (or fully) offset themselves: when people are shielded from the consequences of dangerous behavior, they behave more dangerously. Drivers with seatbelts drive faster.  Skydivers with better ripcords pull them later. Football players with facemasks lead with their heads.
+
+Professional hockey is a perfect laboratory for this idea. While helmets clearly protect players from injury *mechanically*, a protected player may also check harder, block more shots, and skate through the middle of the ice with their head down. So the question is not whether helmets protect players holding behavior fixed (they do), but whether helmets make players safer *once we account for how helmets change behavior*.
+
+In this homework, we are going to explore the question: **how does protective equipment affect player injuries?**
+
+There are many ways to think through this problem, but let's start with the following factors that might be related to helmets and injuries:
+
+- **Helmet Technology (HT)**: whether a player wears a modern, high-tech helmet (*treatment*).
+- **Aggressive Play (AGG)**: an index of the player's style: checking, shot-blocking, playing through traffic, etc.
+- **Team Culture (TC)**: the degree to which the player's coaching staff rewards physical play.
+- **Experience (EXP)**: the player's years of professional experience.
+- **Referee Strictness (REF)**: how strictly officials call penalties in the player's games.
+- **Injury Risk (INJ)**: the probability of suffering an injury during the season (*outcome*).
+
+Now, consider the following relationships between the variables:
+
+- We will test both the direct and total effect of helmet technology on injury risk.
+- Helmet technology, through risk compensation, effects how aggressively a player plays.
+- Aggressive play will effect the probability of injury.
+- Better helmets mechanically protect players.  That is, helmet technology effects injury risk directly, holding playing style fixed.
+- Experience will effect injury risk due to experience alone (*i.e.* positioning, knowing when to bail out of a hit) and due to different levels of aggressive play.
+- Referee strictness will influence aggressive play.
+- Referee strictness will influence injury risk by itself by penalizing *other* players' dangerous hits.
+- Team culture will influence aggressive play.
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Using `dagitty`, Construct and plot a DAG to depict the relationships between these variables.  Be sure to indicate which variable is the outcome and which is the treatment. (**4 Points**)
+
+```{r}
+library(dagitty)
+
+helmet_dag <- dagitty('dag {
+  HT  [exposure]
+  INJ [outcome]
+  HT  -> AGG
+  HT  -> INJ
+  AGG -> INJ
+  EXP -> AGG
+  EXP -> INJ
+  REF -> AGG
+  REF -> INJ
+  TC  -> AGG
+}')
+
+plot(helmet_dag)
+
+exposures(helmet_dag)
+outcomes(helmet_dag)
+
+```
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Simulated data for this setting can be found [here](https://alexcardazzi.github.io/econ708/data/helmets_sim.csv).
+
+`r q <- q+1; letters[q]`. Read the data into an object called `helmets` in R. (**0 Points**)
+
+```{r}
+helmets <- read.csv("https://alexcardazzi.github.io/econ708/data/helmets_sim.csv")
+head(helmets)
+
+```
+
+`r q <- q+1; letters[q]`. Create summary statistics using functions from the `modelsummary` package. (**1 Point**)
+
+```{r}
+library(modelsummary)
+datasummary(HT + TC + EXP + REF + AGG + INJ ~ N + Mean + SD + Min + Median + Max,
+            data = helmets,
+            fmt = 3,
+            title = "Summary Statistics, Simulated NHL Player-Seasons")
+
+datasummary_skim(helmets)
+```
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Use functions from `dagitty` to evaluate and explore your DAG.  This will help inform your empirical specification and identification strategy.  You may use code, words, or both to answer these questions.
+
+`r q <- q+1; letters[q]`. List each of the paths in the DAG and tell which are "open". (**2 Points**)
+
+```{r}
+# All paths from HT to INJ; conditioning on nothing
+paths(helmet_dag, from = "HT", to = "INJ")
+
+# The same path like previous one, now conditioning on the mediator AGG only
+paths(helmet_dag, from = "HT", to = "INJ", Z = "AGG")
+
+# And conditioning on AGG, EXP, and REF together
+paths(helmet_dag, from = "HT", to = "INJ", Z = c("AGG", "EXP", "REF"))
+```
+
+`r q <- q+1; letters[q]`. For each path, discuss why it is open or closed.  Be sure to use terms like "confounder", "collider", "mediator", etc. (**2 Points**)
+
+##Path 1: HT -> AGG -> INJ — AGG is a mediator in a causal chain. Chains are open unless you condition on the middle node, so this path is open with no controls and closes once AGG enters the regression. It carries the indirect, risk-compensation effect.
+
+## Path 2: HT -> AGG <- EXP -> INJ — AGG is a collider here (two arrowheads meet), so the path is closed by default. EXP is a confounder of the AGG–INJ relationship. Conditioning on AGG opens the collider; adding EXP re-closes the path at the fork.
+
+## Path 3: HT -> AGG <- REF -> INJ — structurally identical: collider at AGG, confounder at REF. Closed by default, opened by controlling for AGG alone, re-closed by adding REF.
+
+## Path 4: HT -> INJ — a single edge with no intermediate node, so nothing can block it. Always open, and it is the direct effect we want to isolate.
+
+##TC never appears because its only edge is TC -> AGG — the trail dead-ends there and never reaches the outcome, so it belongs to no adjustment set.
+
+##That's the whole logic of the three $open vectors: no controls leaves the two causal paths open; AGG alone swaps which two are open (the bad trade); {AGG, EXP, REF} leaves only the direct edge.
+
+`r q <- q+1; letters[q]`. What does it mean, and why is it significant, for a path to be open/closed? (**1 Point**)
+
+## An open path transmits statistical association between two variables; a closed path transmits none, blocked either by conditioning on a non-collider or by an unconditioned collider.
+
+##This matters because a regression coefficient absorbs association from all open paths, so identification means choosing controls that leave open exactly the causal paths you want and close the rest.
+
+`r q <- q+1; letters[q]`. Which factors do you need to control for to estimate the *total* causal effect of helmet technology on injury risk? (**1 Point**)
+
+```{r}
+adjustmentSets(helmet_dag, exposure = "HT", outcome = "INJ", effect = "total")
+```
+## Nothing — dagitty returns the empty set {}, so lm(INJ ~ HT) identifies the total effect.
+
+
+`r q <- q+1; letters[q]`. Which factors do you need to control for to estimate the *direct* causal effect of helmet technology on injury risk?  You may use `dagitty` to help you, **but you must provide explanations for `dagitty`'s output**. (**1 Point**)
+
+```{r}
+adjustmentSets(helmet_dag, exposure = "HT", outcome = "INJ", effect = "direct")
+```
+
+## dagitty returns {AGG, EXP, REF}. Control AGG because it is the mediator — blocking HT -> AGG -> INJ is what isolates the direct effect. But AGG is a collider on HT -> AGG <- EXP -> INJ and HT -> AGG <- REF -> INJ, so conditioning on it opens both; EXP and REF close them again at the fork. TC isn't needed — it has no edge into INJ, so that trail dead-ends.
+
+
+## Question `r Q <- Q+1; Q`
+
+```{r include=FALSE}
+q <- 0
+```
+
+Using `helmets`, estimate the (direct and total) causal effects of helmet technology on injury risk.
+
+`r q <- q+1; letters[q]`. Estimate the models below. (**1 Point**)
+
+```{r}
+m_total  <- lm(INJ ~ HT, data = helmets)
+m_direct <- lm(INJ ~ HT + AGG + EXP + REF, data = helmets)
+
+# First stage of the risk-compensation channel, used for the decomposition in part (c)
+m_agg    <- lm(AGG ~ HT + EXP + REF + TC, data = helmets)
+```
+
+`r q <- q+1; letters[q]`. Display the coefficient estimates in a table generated via functions in `modelsummary`. (**1 Point**)
+
+```{r}
+modelsummary(list("(1) Total Effect" = m_total,
+                  "(2) Direct Effect" = m_direct),
+             stars = TRUE,
+             fmt = 4,
+             gof_map = c("nobs", "r.squared"),
+             title = "Effect of Helmet Technology on Injury Risk")
+```
+
+
+`r q <- q+1; letters[q]`. Interpret each coefficient, besides the intercept/constant, in each model.  Pay careful attention to the coefficient on helmet technology in each column.  How can *both* estimates be correct at the same time? (**2 Points**)
+
+## Column (1), total effect-
+## beta1 hat = 0.0901. Wearing a modern helmet raises season injury probability by about 9.0 percentage points, and since HT has no parents in the DAG this is the causal total effect, not just a correlation.
+
+##Column (2), direct effect.**
+
+## HT= -0.0787. Holding playing style, experience, and officiating fixed, a modern helmet lowers injury probability by about 7.9 percentage points — the mechanical protection, i.e. the controlled direct effect.
+
+##AGG= 0.0171.A one-unit increase in the aggression index raises injury probability by 1.7 percentage points; with an SD of about 7.4, a one-SD increase is worth roughly 12.7 percentage points — playing style dominates.
+
+##EXP = -0.0079. Each additional year of experience lowers injury probability by about 0.8 percentage points at a given level of aggression — the "knowing when to bail out of a hit" channel only, since AGG holds the experience-through-style channel fixed.
+
+##REF` = -0.1646. Moving officiating from least to most strict lowers injury probability by roughly 16.5 percentage points holding style fixed (about 1.6 points per 0.1 increase) — the protection from having opponents' dangerous hits penalized.
+
+## How can both are correct at the same time-
+## They are answering two different question here. At the same time here are two type of effects. total effect decompose direct plus indirect effect.
+
+`r q <- q+1; letters[q]`. A classmate estimates `lm(INJ ~ HT + AGG, helmets)`, reasoning that since AGG is the mediator, controlling for it alone should recover the direct effect.  Estimate this model. Compare the coefficient on HT to your answer from the previous part, and explain what went wrong using your DAG. (**1 Point**)
+
+
+```{r}
+m_classmate <- lm(INJ ~ HT + AGG, data = helmets)
+
+modelsummary(list("(2) Direct Effect" = m_direct,
+                  "(3) Classmate" = m_classmate),
+             stars = TRUE,
+             fmt = 4,
+             gof_map = c("nobs", "r.squared"),
+             title = "Controlling for the Mediator Alone")
+```
+## The classmate gets beta hat= − 0.1481 nearly twice as protective as the correct direct effect of −0.0787. The intuition is half right — blocking HT -> AGG -> INJ does require conditioning on AGG — but AGG is also a collider on HT -> AGG <- EXP -> INJ and HT -> AGG <- REF -> INJ, so conditioning on it opens two non-causal paths.
+
+## Intuitively: a modern helmet raises aggression by about 9.5 units, so among players with the same aggression, the helmeted one must have something pulling him down — more experience or stricter officials — and both independently reduce injuries. The HT coefficient absorbs that protection and helmets look far safer than they are. Adding EXP and REF closes the paths at the fork.
+
+## The lesson: conditioning on a post-treatment variable can create bias, and only the DAG tells you what else to add to clean up after it.
+
+## Question `r Q <- Q+1; Q`
+
+Suppose there is an unmeasured variable, **pain tolerance (PT)**, that affects both how aggressively a player plays and how likely they are to be injured (perhaps because high pain tolerance players ignore small injuries until they become big ones). So PT effects AGG and PT effects INJ, but PT appears in no dataset. Does the existence of PT bias your estimate of the *total* effect? What about the *direct* effect? Explain using the logic of open and closed paths. (You may modify your DAG in `dagitty` to check your reasoning.) (**2 Points**)
+
+*Your answer here.*
+```{r}
+helmet_dag_pt <- dagitty('dag {
+  HT  [exposure, pos="0,0"]
+  INJ [outcome,  pos="4,0"]
+  AGG [pos="2,-1.2"]
+  TC  [pos="2,-2.4"]
+  EXP [pos="2,1.2"]
+  REF [pos="2,2.4"]
+  PT  [latent, pos="3.2,-2.0"]
+
+  HT  -> AGG
+  HT  -> INJ
+  AGG -> INJ
+  EXP -> AGG
+  EXP -> INJ
+  REF -> AGG
+  REF -> INJ
+  TC  -> AGG
+  PT  -> AGG
+  PT  -> INJ
+}')
+
+plot(helmet_dag_pt)
+
+cat("Total effect:\n")
+adjustmentSets(helmet_dag_pt, exposure = "HT", outcome = "INJ", effect = "total")
+cat("Direct effect:\n")
+adjustmentSets(helmet_dag_pt, exposure = "HT", outcome = "INJ", effect = "direct")
+```
+##The total effect is unaffected. PT adds one new path, HT -> AGG <- PT -> INJ, on which AGG is a collider. Since the total-effect strategy conditions on nothing, the collider keeps it closed by itself. dagitty still returns the empty set, so lm(INJ ~ HT) remains unbiased — PT being unmeasured doesn't matter because we never needed it.
+
+##The direct effect is no longer identified. That strategy requires conditioning on AGG, which opens the collider on HT -> AGG <- PT -> INJ. Re-closing it would mean conditioning on PT, which is in no dataset, and there is no other node on the path to block at. dagitty returns no adjustment sets at all — the controlled direct effect isn't identifiable.
+
+##The bias runs the same direction as in 4(d): among players with the same aggression, the helmeted one got there via the helmet rather than grit, so he has lower pain tolerance and lower injury risk for non-helmet reasons. This is classic mediator–outcome confounding — harmless for total effects, fatal for decompositions.
+
+
+
+## Question `r Q <- Q+1; Q`
+
+Think of two additional variables and/or edges that may belong in this DAG. Make an argument for why they belong in the DAG. (**1 Point**)
+
+## 1. Prior injury history (PIH): PIH -> HT, PIH -> INJ.
+
+## Concussion-history players are exactly who equipment staff fit with new helmets, and past injury strongly predicts future injury. This opens a back-door path HT <- PIH -> INJ with PIH as a confounder, biasing the total effect upward — helmets look dangerous partly because fragile players wear them. PIH would enter both adjustment sets, so the empty-set answer to 3(d) fails.
+
+## 2. Ice time (TOI): TC -> TOI, EXP -> TOI, AGG -> TOI, TOI -> INJ.
+
+## Injury is partly exposure — 22 minutes a night offers more chances to get hurt than 8, and coaches assign minutes on experience and stylistic fit. This gives TC a route to the outcome it previously lacked, so conditioning on AGG opens HT -> AGG <- TC -> TOI -> INJ and TC must join the direct-effect set, making 3(e) {AGG, EXP, REF, TC}.
